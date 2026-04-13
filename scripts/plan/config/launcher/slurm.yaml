@@ -16,3 +16,4 @@ hydra:
     nodes: 1
     tasks_per_node: 1
     submitit_folder: ${hydra.sweep.dir}/submitit/%j
+
