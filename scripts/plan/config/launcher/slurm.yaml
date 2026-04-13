@@ -1,0 +1,17 @@
+# @package _global_
+# SLURM launcher configuration via hydra-submitit-launcher
+
+defaults:
+  - override /hydra/launcher: submitit_slurm
+
+cache_dir: null # use stable-worldmodel default cache
+
+hydra:
+  launcher:
+    timeout_min: 240
+    cpus_per_task: 4
+    gpus_per_node: 1
+    mem_gb: 32
+    nodes: 1
+    tasks_per_node: 1
+    submitit_folder: ${hydra.sweep.dir}/submitit/%j
