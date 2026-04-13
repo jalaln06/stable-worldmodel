@@ -142,7 +142,21 @@ class SaveCkptCallback(Callback):
             self._save(pl_module.model, epoch)
 
     def _save(self, model, epoch):
-        save_pretrained(model, run_name=self.run_name, config=self.cfg, filename=f'weights_epoch_{epoch}.pt')
+        cfg = self.cfg
+        predictor_kwargs = {k: v for k, v in cfg.predictor.items() if k != 'size'}
+        model_config = {
+            '_target_': 'stable_worldmodel.wm.prejepa.from_config',
+            'backbone_name': cfg.backbone.name,
+            'image_size': cfg.get('image_size', 224),
+            'patch_size': cfg.get('patch_size', 14),
+            'is_video_encoder': cfg.backbone.get('is_video_encoder', False),
+            'history_size': cfg.wm.history_size,
+            'num_preds': cfg.wm.num_preds,
+            'predictor': predictor_kwargs,
+            'encoding': dict(cfg.wm.get('encoding', {})),
+            'extra_dims': dict(cfg.get('extra_dims', {})),
+        }
+        save_pretrained(model, run_name=self.run_name, config=model_config, filename=f'weights_epoch_{epoch}.pt')
 
 
 # ---------------------------------------------------------------------------

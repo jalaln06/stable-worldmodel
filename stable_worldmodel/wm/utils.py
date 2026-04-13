@@ -35,7 +35,9 @@ def save_pretrained(
 
     config_path = ckpt_dir / 'config.json'
 
-    config = OmegaConf.to_container(config, resolve=True)
+    from omegaconf import DictConfig
+    if isinstance(config, DictConfig):
+        config = OmegaConf.to_container(config, resolve=True)
     with open(config_path, 'w') as f:
         json.dump(config, f, indent=2)
 
