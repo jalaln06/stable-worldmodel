@@ -21,7 +21,6 @@ def run(cfg):
             episodes=500,
             seed=rng.integers(0, 1_000_000).item(),
             cache_dir=cfg.cache_dir,
-            mode=cfg.ds_type,
         )
 
     logging.success(' 🎉🎉🎉 Completed data collection for pusht_toy 🎉🎉🎉')
